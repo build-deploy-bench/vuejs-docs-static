@@ -51,13 +51,13 @@ Render and Vercel serve the output from their CDNs, with no instance. Railway an
 ### Vercel
 
 - Team `build-deploy-bench`. Project `bdb-vuejs-docs-static` `prj_FkcYg94EMQY6UzoSw7AQ9P8EKK7E`, https://bdb-vuejs-docs-static.vercel.app. No Git link; deploys upload a `git archive` of the commit with `vercel deploy --prod`.
-- Framework preset `vitepress` (from `vercel.json`). Project Node version `24.x`. Build machine: team default, `standard` (4 cores, 8 GB) with `elastic` selection.
+- Framework preset `vitepress` (from `vercel.json`). Project Node version `24.x`. Build machine `standard` (4 cores, 8 GB), selection `fixed`.
 - The harness passes `--build-env BENCH_RUN_ID=<id> --build-env BENCH_COMMIT=<sha>`, so `/version` has the right commit and run.
 - Setup deploy `dpl_2x4ShgJ4WsdhVXcjXoQ4i7kStvmK`. Above the fast-static threshold (10 HTML files, 5 MB), so Vercel runs the build.
 
 ### Fly.io
 
-- Org `personal`. App `bdb-vuejs-docs-static`, https://bdb-vuejs-docs-static.fly.dev. One Machine, `iad`, `shared-cpu-1x` with 256 MB. Health check `/`.
+- Org `personal`. App `bdb-vuejs-docs-static`, https://bdb-vuejs-docs-static.fly.dev. One Machine, `iad`, `shared-cpu-1x` with 1 GB (the `fly launch` default). Health check `/`.
 - Deploy: `flyctl deploy --config fly.toml -a bdb-vuejs-docs-static --remote-only --depot=false --ha=false --yes --strategy bluegreen --build-arg BENCH_COMMIT=<sha> --env BENCH_RUN_ID=<id>` from a `git archive` of the commit. Setup deploy of `d2dd278` returned the right commit and run ID.
 - The build step is slow on Fly's remote builder (`fly-builder-rosy-headland-8386`, `shared-cpu-8x`, 8 GB): `pnpm run build` took 297 s while another thread's Fly builds shared the builder, and 124 s alone (2026-11-12). It takes about 12 s on Render and 6 s on a laptop. Shared-CPU throttling of the builder is the likely cause; it applies to every fixture that uses this builder.
 
