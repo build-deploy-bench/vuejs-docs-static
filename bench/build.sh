@@ -29,9 +29,11 @@ commit_sha() {
 }
 
 install() {
-  mark install_start
+  # Print the versions before the marker: on Render the first `node` call installs Node, and the first `pnpm` call
+  # downloads pnpm through Corepack. Both are toolchain setup, which other providers do before the install step.
   node --version
   pnpm --version
+  mark install_start
   pnpm install --frozen-lockfile
   mark install_done
 }
