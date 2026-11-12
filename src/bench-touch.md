@@ -1,3 +1,3 @@
 # Bench touch
 
-m-static-1-vercel-static-small-r1-165002
+2026-11-12-fly-depot-fly-static-small-r1-225546
