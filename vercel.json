@@ -1,5 +1,12 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "vitepress",
+  "installCommand": "./bench/build.sh install",
+  "buildCommand": "./bench/build.sh build",
+  "outputDirectory": ".vitepress/dist",
+  "git": {
+    "deploymentEnabled": false
+  },
   "headers": [
     {
       "source": "/assets/(.*)",
